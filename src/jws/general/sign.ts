@@ -2,6 +2,7 @@ import { FlattenedSign } from '../flattened/sign.js'
 import { JWSInvalid } from '../../util/errors.js'
 
 import type { KeyLike, GeneralJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
+import { SignFunction } from '../../runtime/interfaces.js'
 
 export interface Signature {
   /**
@@ -17,6 +18,13 @@ export interface Signature {
    * @param unprotectedHeader JWS Unprotected Header.
    */
   setUnprotectedHeader(unprotectedHeader: JWSHeaderParameters): Signature
+
+  /**
+   * Sets the custom sign function on the FlattenedSign object.
+   *
+   * @param signFunction JWS Signing function
+   */
+  setSignFunction(signFunction: SignFunction): Signature
 
   /** A shorthand for calling addSignature() on the enclosing GeneralSign instance */
   addSignature(...args: Parameters<GeneralSign['addSignature']>): Signature
@@ -34,6 +42,7 @@ class IndividualSignature implements Signature {
   protectedHeader?: JWSHeaderParameters
   unprotectedHeader?: JWSHeaderParameters
   options?: SignOptions
+  signFunction?: SignFunction
   key: KeyLike | Uint8Array
 
   constructor(sig: GeneralSign, key: KeyLike | Uint8Array, options?: SignOptions) {
@@ -55,6 +64,14 @@ class IndividualSignature implements Signature {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
     this.unprotectedHeader = unprotectedHeader
+    return this
+  }
+
+  setSignFunction(signFunction: SignFunction) {
+    if (this.signFunction) {
+      throw new TypeError('setCustomSignFunction can only be called once')
+    }
+    this.signFunction = signFunction
     return this
   }
 
@@ -129,6 +146,7 @@ export class GeneralSign {
 
       flattened.setProtectedHeader(signature.protectedHeader!)
       flattened.setUnprotectedHeader(signature.unprotectedHeader!)
+      flattened.setSignFunction(signature.signFunction)
 
       const { payload, ...rest } = await flattened.sign(signature.key, signature.options)
       if (i === 0) {

@@ -1,3 +1,5 @@
+import { VerifyFunction } from "./runtime/interfaces"
+
 /**
  * KeyLike are runtime-specific classes representing asymmetric keys or symmetric secrets. These are
  * instances of {@link https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey CryptoKey} and
@@ -484,6 +486,11 @@ export interface VerifyOptions extends CritOption {
    * accepted.
    */
   algorithms?: string[]
+
+  /**
+   * Custom JWS verification function
+   */
+  verifyFunction?: VerifyFunction,
 }
 
 /** JWS Signing options. */
