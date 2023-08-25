@@ -1,5 +1,5 @@
 {
-  "name": "jose",
+  "name": "furlanluka-jose",
   "version": "4.14.4",
   "description": "'JSON Web Almost Everything' - JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, Bun, and other Web-interoperable runtimes",
   "keywords": [
@@ -51,7 +51,7 @@
     "x509"
   ],
   "homepage": "https://github.com/panva/jose",
-  "repository": "panva/jose",
+  "repository": "FurlanLuka/jose",
   "funding": {
     "url": "https://github.com/sponsors/panva"
   },

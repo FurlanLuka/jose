@@ -13,7 +13,7 @@ delete pkg.keywords
 
 pkg.files.push('!dist/**/package.json')
 pkg.files.push('!dist/node/**/*')
-pkg.name = 'jose-browser-runtime'
+pkg.name = 'furlanluka-jose-browser-runtime'
 pkg.type = 'module'
 
 writeFileSync('./package.json', JSON.stringify(pkg, null, 2) + '\n')

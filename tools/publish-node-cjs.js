@@ -16,7 +16,7 @@ delete pkg.keywords
 pkg.files.push('!dist/browser/**/*')
 pkg.files.push('!dist/node/esm/**/*')
 pkg.main = pkg.exports['.'].require
-pkg.name = 'jose-node-cjs-runtime'
+pkg.name = 'furlanluka-jose-node-cjs-runtime'
 
 writeFileSync('./package.json', JSON.stringify(pkg, null, 2) + '\n')
 unlinkSync('./CHANGELOG.md')
