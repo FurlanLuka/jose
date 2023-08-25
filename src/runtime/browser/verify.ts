@@ -1,8 +1,8 @@
-import type { VerifyFunction } from '../interfaces.d'
 import subtleAlgorithm from './subtle_dsa.js'
 import crypto from './webcrypto.js'
 import checkKeyLength from './check_key_length.js'
 import getVerifyKey from './get_sign_verify_key.js'
+import { VerifyFunction } from '../../types.js'
 
 const verify: VerifyFunction = async (alg, key: unknown, signature, data) => {
   const cryptoKey = await getVerifyKey(alg, key, 'verify')

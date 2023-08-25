@@ -12,8 +12,8 @@ import type {
   JWEHeaderParameters,
   CritOption,
   DeflateOption,
+  EncryptKeyManagementFunction,
 } from '../../types.d'
-import { EncryptKeyManagementFunction } from '../../runtime/interfaces.js'
 
 export interface Recipient {
   /**
