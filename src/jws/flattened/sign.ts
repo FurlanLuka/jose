@@ -4,10 +4,15 @@ import sign from '../../runtime/sign.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
-import type { KeyLike, FlattenedJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
+import type {
+  KeyLike,
+  FlattenedJWS,
+  JWSHeaderParameters,
+  SignOptions,
+  SignFunction,
+} from '../../types.d'
 import checkKeyType from '../../lib/check_key_type.js'
 import validateCrit from '../../lib/validate_crit.js'
-import { SignFunction } from '../../runtime/interfaces.js'
 
 /**
  * The FlattenedSign class is used to build and sign Flattened JWS objects.
@@ -129,7 +134,9 @@ export class FlattenedSign {
       throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
     }
 
-    checkKeyType(alg, key, 'sign')
+    if (!this._signFunction) {
+      checkKeyType(alg, key, 'sign')
+    }
 
     let payload = this._payload
     if (b64) {

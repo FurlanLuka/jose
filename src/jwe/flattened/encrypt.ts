@@ -8,6 +8,7 @@ import type {
   JWEHeaderParameters,
   JWEKeyManagementHeaderParameters,
   EncryptOptions,
+  EncryptKeyManagementFunction,
 } from '../../types.d'
 import generateIv from '../../lib/iv.js'
 import encryptKeyManagement from '../../lib/encrypt_key_management.js'
@@ -15,7 +16,6 @@ import { JOSENotSupported, JWEInvalid } from '../../util/errors.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
 import validateCrit from '../../lib/validate_crit.js'
-import { EncryptKeyManagementFunction } from '../../runtime/interfaces.js'
 
 /** @private */
 export const unprotected = Symbol()

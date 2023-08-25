@@ -4,8 +4,8 @@ import type {
   JWEKeyManagementHeaderParameters,
   CompactJWEHeaderParameters,
   EncryptOptions,
+  EncryptKeyManagementFunction,
 } from '../../types.d'
-import { EncryptKeyManagementFunction } from '../../runtime/interfaces.js'
 
 /**
  * The CompactEncrypt class is used to build and encrypt Compact JWE strings.

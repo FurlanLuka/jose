@@ -1,9 +1,6 @@
 import type {
   JWK,
   KeyLike,
-  JWEKeyManagementHeaderParameters,
-  JWEHeaderParameters,
-  DecryptOptions,
 } from '../types.d'
 import type { PEMImportOptions } from '../key/import.js'
 
@@ -12,34 +9,7 @@ type AsyncOrSync<T> = Promise<T> | T
 export interface TimingSafeEqual {
   (a: Uint8Array, b: Uint8Array): boolean
 }
-export interface SignFunction {
-  (alg: string, key: unknown, data: Uint8Array): Promise<Uint8Array>
-}
-export interface VerifyFunction {
-  (alg: string, key: unknown, signature: Uint8Array, data: Uint8Array): Promise<boolean>
-}
-export interface EncryptKeyManagementFunction {
-  (
-    alg: string,
-    enc: string,
-    key: KeyLike | Uint8Array,
-    providedCek?: Uint8Array,
-    providedParameters?: JWEKeyManagementHeaderParameters,
-  ): Promise<{
-    cek: KeyLike | Uint8Array
-    encryptedKey?: Uint8Array
-    parameters?: JWEHeaderParameters
-  }>
-}
-export interface DecryptKeyManagementFunction {
-  (
-    alg: string,
-    key: KeyLike | Uint8Array,
-    encryptedKey: Uint8Array | undefined,
-    joseHeader: JWEHeaderParameters,
-    options?: DecryptOptions,
-  ): Promise<KeyLike | Uint8Array>
-}
+
 export interface AesKwWrapFunction {
   (alg: string, key: unknown, cek: Uint8Array): AsyncOrSync<Uint8Array>
 }

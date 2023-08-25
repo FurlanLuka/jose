@@ -162,7 +162,9 @@ export async function flattenedVerify(
     resolvedKey = true
   }
 
-  checkKeyType(alg, key, 'verify')
+  if (!options?.verifyFunction) {
+    checkKeyType(alg, key, 'verify')
+  }
 
   const data = concat(
     encoder.encode(jws.protected ?? ''),

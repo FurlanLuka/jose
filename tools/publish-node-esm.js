@@ -17,7 +17,7 @@ pkg.files.push('!dist/**/package.json')
 pkg.files.push('!dist/browser/**/*')
 pkg.files.push('!dist/node/cjs/**/*')
 pkg.main = pkg.exports['.'].import
-pkg.name = 'furlanluka-jose-node-esm-runtime'
+pkg.name = '@decentrl/jose-node-esm-runtime'
 pkg.type = 'module'
 
 writeFileSync('./package.json', JSON.stringify(pkg, null, 2) + '\n')

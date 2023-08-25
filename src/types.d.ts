@@ -1,5 +1,3 @@
-import { DecryptKeyManagementFunction, VerifyFunction } from "./runtime/interfaces"
-
 /**
  * KeyLike are runtime-specific classes representing asymmetric keys or symmetric secrets. These are
  * instances of {@link https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey CryptoKey} and
@@ -668,4 +666,33 @@ export interface CompactJWEHeaderParameters extends JWEHeaderParameters {
 /** JSON Web Key Set */
 export interface JSONWebKeySet {
   keys: JWK[]
+}
+
+export interface SignFunction {
+  (alg: string, key: unknown, data: Uint8Array): Promise<Uint8Array>
+}
+export interface VerifyFunction {
+  (alg: string, key: unknown, signature: Uint8Array, data: Uint8Array): Promise<boolean>
+}
+export interface EncryptKeyManagementFunction {
+  (
+    alg: string,
+    enc: string,
+    key: KeyLike | Uint8Array,
+    providedCek?: Uint8Array,
+    providedParameters?: JWEKeyManagementHeaderParameters,
+  ): Promise<{
+    cek: KeyLike | Uint8Array
+    encryptedKey?: Uint8Array
+    parameters?: JWEHeaderParameters
+  }>
+}
+export interface DecryptKeyManagementFunction {
+  (
+    alg: string,
+    key: KeyLike | Uint8Array,
+    encryptedKey: Uint8Array | undefined,
+    joseHeader: JWEHeaderParameters,
+    options?: DecryptOptions,
+  ): Promise<KeyLike | Uint8Array>
 }
