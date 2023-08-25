@@ -57,6 +57,8 @@ export type { GenerateKeyPairResult, GenerateKeyPairOptions } from './key/genera
 export { generateSecret } from './key/generate_secret.js'
 export type { GenerateSecretOptions } from './key/generate_secret.js'
 
+export { default as generateCek } from './lib/cek.js';
+
 export * as base64url from './util/base64url.js'
 
 export type {
