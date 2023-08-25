@@ -5,6 +5,7 @@ import type {
   CompactJWEHeaderParameters,
   EncryptOptions,
 } from '../../types.d'
+import { EncryptKeyManagementFunction } from '../../runtime/interfaces.js'
 
 /**
  * The CompactEncrypt class is used to build and encrypt Compact JWE strings.
@@ -40,6 +41,16 @@ export class CompactEncrypt {
    */
   setContentEncryptionKey(cek: Uint8Array) {
     this._flattened.setContentEncryptionKey(cek)
+    return this
+  }
+
+  /**
+   * Sets a custom encrypt function to use instead of the default one.
+   *
+   * @param encryptKeyManagementFunction
+   */
+  setEncryptKeyManagementFunction(encryptKeyManagementFunction: EncryptKeyManagementFunction) {
+    this._flattened.setEncryptKeyManagementFunction(encryptKeyManagementFunction)
     return this
   }
 

@@ -1,4 +1,4 @@
-import { VerifyFunction } from "./runtime/interfaces"
+import { DecryptKeyManagementFunction, VerifyFunction } from "./runtime/interfaces"
 
 /**
  * KeyLike are runtime-specific classes representing asymmetric keys or symmetric secrets. These are
@@ -401,6 +401,9 @@ export interface CritOption {
 export interface DecryptOptions extends CritOption {
   /** A list of accepted JWE "alg" (Algorithm) Header Parameter values. */
   keyManagementAlgorithms?: string[]
+
+  /** Custom encrypt key management function */
+  decryptKeyManagementFunction?: DecryptKeyManagementFunction;
 
   /**
    * A list of accepted JWE "enc" (Encryption Algorithm) Header Parameter values. By default all
