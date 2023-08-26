@@ -8,6 +8,7 @@ import type {
   JWEHeaderParameters,
   JWEKeyManagementHeaderParameters,
   EncryptOptions,
+  EncryptKeyManagementFunction,
 } from '../../types.d'
 import generateIv from '../../lib/iv.js'
 import encryptKeyManagement from '../../lib/encrypt_key_management.js'
@@ -43,6 +44,8 @@ export class FlattenedEncrypt {
   private _sharedUnprotectedHeader!: JWEHeaderParameters
 
   private _unprotectedHeader!: JWEHeaderParameters
+
+  private _encryptKeyManagementFunction?: EncryptKeyManagementFunction
 
   private _aad!: Uint8Array
 
@@ -112,6 +115,19 @@ export class FlattenedEncrypt {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
     this._unprotectedHeader = unprotectedHeader
+    return this
+  }
+
+  /**
+   * Sets a custom encrypt function to use instead of the default one.
+   *
+   * @param encryptKeyManagementFunction
+   */
+  setEncryptKeyManagementFunction(encryptKeyManagementFunction?: EncryptKeyManagementFunction) {
+    if (this._encryptKeyManagementFunction) {
+      throw new TypeError('setEncryptKeyManagementFunction can only be called once')
+    }
+    this._encryptKeyManagementFunction = encryptKeyManagementFunction
     return this
   }
 
@@ -228,13 +244,15 @@ export class FlattenedEncrypt {
     let cek: KeyLike | Uint8Array
     {
       let parameters: { [propName: string]: unknown } | undefined
-      ;({ cek, encryptedKey, parameters } = await encryptKeyManagement(
-        alg,
-        enc,
-        key,
-        this._cek,
-        this._keyManagementParameters,
-      ))
+      ;({ cek, encryptedKey, parameters } = this._encryptKeyManagementFunction
+        ? await this._encryptKeyManagementFunction(
+            alg,
+            enc,
+            key,
+            this._cek,
+            this._keyManagementParameters,
+          )
+        : await encryptKeyManagement(alg, enc, key, this._cek, this._keyManagementParameters))
 
       if (parameters) {
         if (options && unprotected in options) {

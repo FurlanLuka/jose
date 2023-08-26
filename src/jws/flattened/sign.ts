@@ -4,7 +4,13 @@ import sign from '../../runtime/sign.js'
 import isDisjoint from '../../lib/is_disjoint.js'
 import { JWSInvalid } from '../../util/errors.js'
 import { encoder, decoder, concat } from '../../lib/buffer_utils.js'
-import type { KeyLike, FlattenedJWS, JWSHeaderParameters, SignOptions } from '../../types.d'
+import type {
+  KeyLike,
+  FlattenedJWS,
+  JWSHeaderParameters,
+  SignOptions,
+  SignFunction,
+} from '../../types.d'
 import checkKeyType from '../../lib/check_key_type.js'
 import validateCrit from '../../lib/validate_crit.js'
 
@@ -29,6 +35,8 @@ export class FlattenedSign {
   private _protectedHeader!: JWSHeaderParameters
 
   private _unprotectedHeader!: JWSHeaderParameters
+
+  private _signFunction?: SignFunction
 
   /** @param payload Binary representation of the payload to sign. */
   constructor(payload: Uint8Array) {
@@ -61,6 +69,19 @@ export class FlattenedSign {
       throw new TypeError('setUnprotectedHeader can only be called once')
     }
     this._unprotectedHeader = unprotectedHeader
+    return this
+  }
+
+  /**
+   * Sets the custom sign function on the FlattenedSign object.
+   *
+   * @param signFunction JWS Signing function
+   */
+  setSignFunction(signFunction?: SignFunction) {
+    if (this._signFunction) {
+      throw new TypeError('setCustomSignFunction can only be called once')
+    }
+    this._signFunction = signFunction
     return this
   }
 
@@ -113,7 +134,9 @@ export class FlattenedSign {
       throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid')
     }
 
-    checkKeyType(alg, key, 'sign')
+    if (!this._signFunction) {
+      checkKeyType(alg, key, 'sign')
+    }
 
     let payload = this._payload
     if (b64) {
@@ -129,7 +152,9 @@ export class FlattenedSign {
 
     const data = concat(protectedHeader, encoder.encode('.'), payload)
 
-    const signature = await sign(alg, key, data)
+    const signature = this._signFunction
+      ? await this._signFunction(alg, key, data)
+      : await sign(alg, key, data)
 
     const jws: FlattenedJWS = {
       signature: base64url(signature),

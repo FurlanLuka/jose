@@ -1,4 +1,7 @@
-import type { JWK, KeyLike } from '../types.d'
+import type {
+  JWK,
+  KeyLike,
+} from '../types.d'
 import type { PEMImportOptions } from '../key/import.js'
 
 type AsyncOrSync<T> = Promise<T> | T
@@ -6,12 +9,7 @@ type AsyncOrSync<T> = Promise<T> | T
 export interface TimingSafeEqual {
   (a: Uint8Array, b: Uint8Array): boolean
 }
-export interface SignFunction {
-  (alg: string, key: unknown, data: Uint8Array): Promise<Uint8Array>
-}
-export interface VerifyFunction {
-  (alg: string, key: unknown, signature: Uint8Array, data: Uint8Array): Promise<boolean>
-}
+
 export interface AesKwWrapFunction {
   (alg: string, key: unknown, cek: Uint8Array): AsyncOrSync<Uint8Array>
 }

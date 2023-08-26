@@ -12,6 +12,7 @@ import type {
   JWEHeaderParameters,
   CritOption,
   DeflateOption,
+  EncryptKeyManagementFunction,
 } from '../../types.d'
 
 export interface Recipient {
@@ -93,6 +94,8 @@ export class GeneralEncrypt {
 
   private _unprotectedHeader!: JWEHeaderParameters
 
+  private _encryptKeyManagementFunction?: EncryptKeyManagementFunction
+
   private _aad!: Uint8Array
 
   /** @param plaintext Binary representation of the plaintext to encrypt. */
@@ -140,6 +143,19 @@ export class GeneralEncrypt {
   }
 
   /**
+   * Sets a custom encrypt function to use instead of the default one.
+   *
+   * @param encryptKeyManagementFunction
+   */
+  setEncryptKeyManagementFunction(encryptKeyManagementFunction: EncryptKeyManagementFunction) {
+    if (this._encryptKeyManagementFunction) {
+      throw new TypeError('setEncryptKeyManagementFunction can only be called once')
+    }
+    this._encryptKeyManagementFunction = encryptKeyManagementFunction
+    return this
+  }
+
+  /**
    * Sets the Additional Authenticated Data on the GeneralEncrypt object.
    *
    * @param aad Additional Authenticated Data.
@@ -168,6 +184,7 @@ export class GeneralEncrypt {
         .setAdditionalAuthenticatedData(this._aad)
         .setProtectedHeader(this._protectedHeader)
         .setSharedUnprotectedHeader(this._unprotectedHeader)
+        .setEncryptKeyManagementFunction(this._encryptKeyManagementFunction)
         .setUnprotectedHeader(recipient.unprotectedHeader!)
         .encrypt(recipient.key, { ...recipient.options, ...options })
 

@@ -4,6 +4,7 @@ import type {
   JWEKeyManagementHeaderParameters,
   CompactJWEHeaderParameters,
   EncryptOptions,
+  EncryptKeyManagementFunction,
 } from '../../types.d'
 
 /**
@@ -40,6 +41,16 @@ export class CompactEncrypt {
    */
   setContentEncryptionKey(cek: Uint8Array) {
     this._flattened.setContentEncryptionKey(cek)
+    return this
+  }
+
+  /**
+   * Sets a custom encrypt function to use instead of the default one.
+   *
+   * @param encryptKeyManagementFunction
+   */
+  setEncryptKeyManagementFunction(encryptKeyManagementFunction: EncryptKeyManagementFunction) {
+    this._flattened.setEncryptKeyManagementFunction(encryptKeyManagementFunction)
     return this
   }
 

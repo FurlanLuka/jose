@@ -162,7 +162,9 @@ export async function flattenedVerify(
     resolvedKey = true
   }
 
-  checkKeyType(alg, key, 'verify')
+  if (!options?.verifyFunction) {
+    checkKeyType(alg, key, 'verify')
+  }
 
   const data = concat(
     encoder.encode(jws.protected ?? ''),
@@ -170,7 +172,9 @@ export async function flattenedVerify(
     typeof jws.payload === 'string' ? encoder.encode(jws.payload) : jws.payload,
   )
   const signature = base64url(jws.signature)
-  const verified = await verify(alg, key, signature, data)
+  const verified = options?.verifyFunction
+    ? await options.verifyFunction(alg, key, signature, data)
+    : await verify(alg, key, signature, data)
 
   if (!verified) {
     throw new JWSSignatureVerificationFailed()

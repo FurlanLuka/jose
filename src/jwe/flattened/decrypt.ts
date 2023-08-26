@@ -190,7 +190,9 @@ export async function flattenedDecrypt(
 
   let cek: KeyLike | Uint8Array
   try {
-    cek = await decryptKeyManagement(alg, key, encryptedKey, joseHeader, options)
+    cek = options?.decryptKeyManagementFunction
+      ? await options.decryptKeyManagementFunction(alg, key, encryptedKey, joseHeader, options)
+      : await decryptKeyManagement(alg, key, encryptedKey, joseHeader, options)
   } catch (err) {
     if (err instanceof TypeError || err instanceof JWEInvalid || err instanceof JOSENotSupported) {
       throw err

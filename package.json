@@ -1,6 +1,6 @@
 {
-  "name": "jose",
-  "version": "4.14.4",
+  "name": "@decentrl/jose",
+  "version": "4.14.6",
   "description": "'JSON Web Almost Everything' - JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, Bun, and other Web-interoperable runtimes",
   "keywords": [
     "browser",
@@ -50,13 +50,17 @@
     "workers",
     "x509"
   ],
-  "homepage": "https://github.com/panva/jose",
-  "repository": "panva/jose",
+  "homepage": "https://github.com/FurlanLuka/jose",
+  "repository": "FurlanLuka/jose",
   "funding": {
     "url": "https://github.com/sponsors/panva"
   },
   "license": "MIT",
   "author": "Filip Skokan <panva.ip@gmail.com>",
+  "contributors": [{
+    "name": "Luka Furlan",
+    "email": "luka.furlan9@gmail.com"
+  }],
   "sideEffects": false,
   "imports": {
     "#dist": {

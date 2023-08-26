@@ -12,12 +12,12 @@ Support from the community to continue maintaining and improving this module is 
 
 **`example`** ESM import
 ```js
-import * as jose from 'jose'
+import * as jose from '@decentrl/jose'
 ```
 
 **`example`** CJS require
 ```js
-const jose = require('jose')
+const jose = require('@decentrl/jose')
 ```
 
 ### JSON Web Tokens (JWT)
