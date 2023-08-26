@@ -61,6 +61,8 @@ export { default as generateCek } from './lib/cek.js'
 
 export * as base64url from './util/base64url.js'
 
+export { default as digest } from './runtime/digest.js'
+
 export type {
   KeyLike,
   JWK,
